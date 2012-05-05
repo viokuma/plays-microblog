@@ -1,0 +1,18 @@
+#{extends 'main.html' /}
+
+
+#{list pager.models, as:'c'}
+  <div style="margin: 10px 0; border-bottom: 1px solid #EEE;">
+  	<p><a href="#${c.user.username}" #{if !(type>0) && username!=c.user.username} ref="tooltip" title="加ta" #{/if}>@${c.user.username}</a>：${c.message}</p>
+  	<p>
+  		<span style="color:#08C;">发布于${c.createTime.format('yyyy-MM-dd HH:mm:ss')}</span>
+ 		#{if type>0}
+ 		#{secure.check c.user.username}
+  		<a href="@{App.delete(c.id)}">删除</a>
+  		#{/secure.check}
+  		#{/if}
+  	</p>
+  </div>
+#{/list}
+</div>
+#{pager obj:pager /}

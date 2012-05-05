@@ -1,0 +1,51 @@
+#{extends 'main.html' /}
+
+
+<div class="container">
+	<div class="page-header">
+	    <h2>我的${inverse ? '跟随' : '关注'}</h2>
+	</div>
+	
+	#{if pager.models.size() > 0}
+	<table class="table table-bordered">
+	<tbody>
+	
+		#{list pager.models, as:'user'}
+		<tr>
+			#{if !inverse}
+			<td width="60">
+				<a href="#${user.username}" class="btn btn-small btn-danger">
+					<i class="icon-minus icon-white"></i>删除
+				</a>
+			</td>
+			#{/if}
+			<td>${user.username}</td>
+			<td>${user.email}</td>
+		</tr>
+		#{/list}
+	</tbody>
+	</table>
+	#{pager obj:pager /}
+	#{/if}
+	#{else}
+	<p>共搜索到0个${inverse ? '跟随' : '关注'}</p>
+	#{/else}
+	
+</div>
+
+#{if !inverse}
+<script>
+$(function() {
+	$('a.btn-danger').click(function() {
+		var a = this;
+		$.post('@{App.minus}', {username:$(a).attr('href').substring(1)}, function(data) {
+			$(a).parents('tr').remove();
+			if ($('table.table tr').length == 0) {$('table.table').remove();}
+			if (data == '删除成功') {$('#followingsCount').text(parseInt($('#followingsCount').text())-1);}
+			alert(data);
+		});
+		return false;
+	});
+});
+</script>
+#{/if}

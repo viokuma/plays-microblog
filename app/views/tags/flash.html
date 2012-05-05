@@ -1,0 +1,28 @@
+<script type="text/javascript">
+$(function() {
+	$('a[class="tabclose"]').click(function() {
+		$(this).parent().hide();
+	});
+});
+</script>
+
+#{if flash.error}
+	<p class="error">
+		&{flash.error}
+		<a href="javascript:;" class="tabclose" title="关闭"></a>
+	</p>
+#{/if}
+#{if flash.success}
+	<p class="success">
+		&{flash.success}
+		<a href="javascript:;" class="tabclose" title="关闭"></a>
+	</p>
+#{/if}
+#{ifErrors}
+	#{errors}
+		<p class="error">
+			${error}
+			<a href="javascript:;" class="tabclose" title="关闭"></a>
+		</p>
+	#{/errors}
+#{/ifErrors}

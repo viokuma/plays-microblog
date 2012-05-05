@@ -1,0 +1,29 @@
+#{if _obj.total > 0}
+<div class="pagination">
+  <ul>
+  #{if _obj.page>1}
+  	<li><a href="${_obj.appendPage(request.url, 1)}">←</a></li>
+    <li><a href="${_obj.appendPage(request.url, _obj.page-1)}">«</a></li>
+  #{/if}
+  #{else}
+    <li class="disabled"><a href="javascript:void(0);">←</a></li>
+    <li class="disabled"><a href="javascript:void(0);">«</a></li>
+  #{/else}
+  
+  #{list _obj.pageStart.._obj.pageEnd, as:'num'}
+    <li class="${_obj.page == num ? 'active' : ''}">
+    	<a href="${_obj.appendPage(request.url, num)}">${num}</a>
+    </li>
+  #{/list}
+  
+  #{if _obj.page < _obj.total}
+    <li><a href="${_obj.appendPage(request.url, _obj.page+1)}">»</a></li>
+    <li><a href="${_obj.appendPage(request.url, _obj.total)}">→</a></li>
+  #{/if}
+  #{else}
+    <li class="disabled"><a href="javascript:void(0);">»</a></li>
+    <li class="disabled"><a href="javascript:void(0);">→</a></li>
+  #{/else}
+  </ul>
+</div>
+#{/if}

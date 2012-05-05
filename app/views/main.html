@@ -1,0 +1,54 @@
+#{extends 'head.html' /}
+
+<div class="navbar navbar-fixed-top">
+     <div class="navbar-inner">
+       <div class="container">
+         <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+           <span class="icon-bar"></span>
+           <span class="icon-bar"></span>
+           <span class="icon-bar"></span>
+         </a>
+         <a class="brand" href="@{App.index}?type=1">Plays微博</a>
+         <div class="nav-collapse">
+           <ul class="nav">
+            #{if username != null}
+              <li class="active"><a href="@{App.index}?type=1">${username}</a></li>
+              <li><a href="/secure/logout">退出</a></li>
+            #{/if}
+            #{else}
+              <li><a href="/secure/login">登录</a></li>
+              <li><a href="#contact">注册</a></li>
+            #{/else} 
+           </ul>
+           #{if username != null}
+           <form action="@{App.search}" method="post" class="navbar-search pull-right">
+       	     <input name="key" type="text" class="input-medium search-query" placeholder="搜索朋友">
+           </form>
+           #{/if}
+         </div><!--/.nav-collapse -->
+       </div>
+     </div>
+</div> <!--/.navbar -->
+
+<div class="container-fluid">
+  <div class="row-fluid">
+    <div class="span2">
+    	 #{if username != null}
+    	<div class="well">
+    		<a href="@{App.listFollows}" class="label label-success">关注<span id="followingsCount">${followingsCount}</span></a>
+    		<a href="@{App.listFollows}?inverse=true" class="label label-info">跟随<span id="followersCount">${followersCount}</span></a>
+    	</div>
+    	#{/if}
+    	
+        <ul class="nav nav-pills nav-stacked">
+          #{if username != null}
+          <li class="${type == 1 ? 'active' : ''}"><a href="@{App.index}?type=1">我的首页</a></li>
+          <li class="${type == 2 ? 'active' : ''}"><a href="@{App.index}?type=2">我的微博</a></li>
+          #{/if}
+          <li class="${type == 0 ? 'active' : ''}"><a href="@{App.index}">全部微博</a></li>
+        </ul>
+    </div><!--/span-->
+    <div class="span9">
+       #{doLayout /}
+    </div><!--/span-->
+</div><!--/row-->

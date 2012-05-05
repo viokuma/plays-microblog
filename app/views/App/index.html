@@ -1,0 +1,55 @@
+#{extends 'main.html' /}
+
+<style>
+#message {word-break:break-all; width:100%;}
+</style>
+
+#{flash /}
+
+#{if type>0 && username != null && username != 'anonymous'}
+<div>
+  <form action="@{App.publish}" method="post">
+  	<textarea name="message" tabindex="1" rows="3" style="width: 500px;"></textarea>
+  	<br/>
+  	<button class="btn btn-small btn-primary" type="submit">发布</button>
+  </form>
+</div>
+#{/if}
+
+<div>
+#{list pager.models, as:'c'}
+  <div style="margin: 10px 0; border-bottom: 1px solid #EEE;">
+  	<p id="message">
+  		<a href="#${c.user.username}" #{if !(type>0) && username!=c.user.username} ref="tooltip" title="加ta" #{/if}>@${c.user.username}</a>：
+  		${c.message}
+  	</p>
+  	<p>
+  		<span style="color:#08C;">发布于${c.createTime.format('yyyy-MM-dd HH:mm:ss')}</span>
+ 		#{if type>0}
+ 		#{secure.check c.user.username}
+  		<a href="@{App.delete(c.id)}">删除</a>
+  		#{/secure.check}
+  		#{/if}
+  	</p>
+  </div>
+#{/list}
+#{if pager.models.size() == 0}
+还没有微博，赶快发布一条微博吧
+#{/if}
+</div>
+#{pager obj:pager /}
+
+<script>
+$(function() {
+	$('a[ref="tooltip"]').tooltip().click(function() {
+		var a = this;
+		$.post('@{App.plus}', {username:$(this).attr('href').substring(1)}, function(data) {
+			$(a).parents('tr').remove();
+			if ($('table.table tr').length == 0) {$('table.table').remove();}
+			if (data == '添加成功') {$('#followingsCount').text(parseInt($('#followingsCount').text())+1);}
+			alert(data);
+		});
+		return false;
+	});
+});
+</script>
