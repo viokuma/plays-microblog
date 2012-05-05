@@ -1,4 +1,5 @@
 Plays微博
 
+使用PlayFramework 1.2.4 做的微博，UI使用bootstrap，只有微博的基本功能，仅供学习参考。
 
 测试的帐号可查看test/data.yml
